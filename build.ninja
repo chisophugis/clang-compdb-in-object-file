@@ -8,7 +8,7 @@ rule link
   command = $cxx -o $out $in
   description = LINK $in
 rule extract_compdb
-  command = readelf --string-dump=.clang.compdb $in | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$$/\1/p' > $out
+  command = readelf --string-dump=.clang.compdb $in | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$$/\1/p' | ./lines2jsonarray.py > $out
 
 build Foo.o: cxx Foo.cpp
 build Bar.o: cxx Bar.cpp
