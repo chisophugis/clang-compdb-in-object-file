@@ -1,0 +1,17 @@
+cxx = clang++
+
+rule cxx
+  command = $cxx -c $in -o $out
+  description = CXX $in
+rule link
+  command = $cxx -o $out $in
+  description = LINK $in
+rule extract_compdb
+  command = readelf --string-dump=.llvm.compdb $in | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$$/\1/p' > $out
+
+build Foo.o: cxx Foo.cpp
+build Bar.o: cxx Bar.cpp
+
+build Game: link Foo.o Bar.o
+build compdb: extract_compdb Game
+default compdb
