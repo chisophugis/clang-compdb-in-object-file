@@ -1,4 +1,5 @@
-cxx = clang++
+# cxx = clang++
+cxx = ./compdb_inserter.py
 
 rule cxx
   command = $cxx -c $in -o $out
