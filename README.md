@@ -60,7 +60,7 @@ be inserted by the compiler.
 # Any future directions?
 
 In general, it seems like a good idea for every step of the build pipeline
-tohave the option of recording the information needed to reproduce that
+to have the option of recording the information needed to reproduce that
 step, since then by just enabling the option on all your tools you can
 create a reproducible record of your build.
 
