@@ -38,7 +38,7 @@ adds:
   `CompilationDatabaseMagic.h` file before parsing the file, this file in
   turn will use the two other options to add the compilation database entry
   to the `.clang.compdb` section.
-- `-D__COMPDB_ENTRY="{\"directory\":...,\"command\":...,\"file\":}"`:
+- `-D__COMPDB_ENTRY="{\"directory\":...,\"command\":...,\"file\":...}"`:
   defines this macro to be a string literal containing the compilation
   database entry.
 - `-D__COMPDB_SYMNAME=...`: see CompilationDatabaseMagic.h for why this is
