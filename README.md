@@ -30,9 +30,9 @@ Basically, it embeds the compilation database entry for the file inside a
 special `.clang.compdb` section, which is then merged by the linker. The
 "proper" way to do this would be for clang to add this information, but for
 this prototype, I made a compiler wrapper script `./compdb_inserter.py`
-which just call clang, but adds some commandline options which cause the
-`.clang.compdb` section to be created with the right contents. For now, it
-adds:
+which just passes through to clang, but adds some commandline options which
+cause the `.clang.compdb` section to be created with the right contents.
+For now, it adds:
 
 - `-include CompilationDatabaseMagic.h`: this causes clang to include the
   `CompilationDatabaseMagic.h` file before parsing the file, this file in
