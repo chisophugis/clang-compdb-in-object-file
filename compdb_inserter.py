@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from __future__ import print_function
 
+# The thought is that eventually clang itself could embed this information.
+
 import json
 import hashlib
 import os
