@@ -38,6 +38,8 @@ def insert_compdb_magic(new_argv):
     new_argv.append('-D__COMPDB_ENTRY=' + c_string)
     symname = make_unique_identifer_from(compdb_entry_str)
     new_argv.append('-D__COMPDB_SYMNAME=' + symname)
+    # Need to use absolute path to CompilationDatabaseMagic.h
+    new_argv.extend(['-include', 'CompilationDatabaseMagic.h'])
 
 new_argv = [CXX] + sys.argv[1:]
 if '-c' in new_argv:
