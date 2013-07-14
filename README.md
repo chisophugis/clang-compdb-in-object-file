@@ -13,8 +13,8 @@ sean:~/pg/CompilationDatabase % ninja -v
 [3/1/0] ./compdb_inserter.py -c Foo.cpp -o Foo.o
 [2/2/0] ./compdb_inserter.py -c Bar.cpp -o Bar.o
 [1/1/2] ./compdb_inserter.py -o Game Foo.o Bar.o
-[0/1/3] readelf --string-dump=.clang.compdb Game | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$/\1/p' | ./lines2jsonarray.py > compdb
-sean:~/pg/CompilationDatabase % cat compdb
+[0/1/3] readelf --string-dump=.clang.compdb Game | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$/\1/p' | ./lines2jsonarray.py > compdb.json
+sean:~/pg/CompilationDatabase % cat compdb.json
 [
 {"directory": "/home/sean/pg/CompilationDatabase", "command": "clang++ -c Foo.cpp -o Foo.o", "file": "Foo.cpp"}
 
