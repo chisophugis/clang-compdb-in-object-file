@@ -9,17 +9,17 @@ Note that this prototype uses `readelf` and moreover it uses a rather obscure
 not have an equivalent on your system. As such, here is a demo of it running:
 
 ```
-sean:~/pg/CompilationDatabase % ninja -v
+sean:~/pg/clang-compdb-in-object-file % ninja -v
 [3/1/0] ./compdb_inserter.py -c Foo.cpp -o Foo.o
 [2/2/0] ./compdb_inserter.py -c Bar.cpp -o Bar.o
 [1/1/2] ./compdb_inserter.py -o Game Foo.o Bar.o
-[0/1/3] readelf --string-dump=.clang.compdb Game | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$/\1/p' | ./lines2jsonarray.py > compdb.json
-sean:~/pg/CompilationDatabase % cat compdb.json
+[0/1/3] readelf --string-dump=.clang.compdb Game | sed --quiet 's/^.*<<<COMPDB:\(.*\)>>>.*$/\1/p' | ./lines2jsonarray.py > compile_commands.json
+sean:~/pg/clang-compdb-in-object-file % cat compile_commands.json
 [
-{"directory": "/home/sean/pg/CompilationDatabase", "command": "clang++ -c Foo.cpp -o Foo.o", "file": "Foo.cpp"}
+{"directory": "/home/sean/pg/clang-compdb-in-object-file", "command": "clang++ -c Foo.cpp -o Foo.o", "file": "Foo.cpp"}
 
 ,
-{"directory": "/home/sean/pg/CompilationDatabase", "command": "clang++ -c Bar.cpp -o Bar.o", "file": "Bar.cpp"}
+{"directory": "/home/sean/pg/clang-compdb-in-object-file", "command": "clang++ -c Bar.cpp -o Bar.o", "file": "Bar.cpp"}
 
 ]
 ```

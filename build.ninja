@@ -14,5 +14,5 @@ build Foo.o: cxx Foo.cpp
 build Bar.o: cxx Bar.cpp
 
 build Game: link Foo.o Bar.o
-build compdb.json: extract_compdb Game
-default compdb.json
+build compile_commands.json: extract_compdb Game
+default compile_commands.json
