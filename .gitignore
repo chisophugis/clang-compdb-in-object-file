@@ -1,4 +1,4 @@
 *.o
 Game
-compdb.json
+compile_commands.json
 .ninja*
