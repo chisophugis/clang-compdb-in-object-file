@@ -4,6 +4,10 @@ This is a quick prototype exploring the viability of embedding Clang
 [compilation database](http://clang.llvm.org/docs/JSONCompilationDatabase.html)
 information inside the emitted object file.
 
+Experience note: I have used a this approach at work to extract compilation
+databases from projects with extremely unfriendly build systems. It works
+like a charm.
+
 Note that this prototype uses `readelf` and moreover it uses a rather obscure
 (but super useful) option `--string-dump=<section number or name>`, so it may
 not have an equivalent on your system. As such, here is a demo of it running:
