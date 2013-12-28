@@ -6,7 +6,8 @@ information inside the emitted object file.
 
 Experience note: I have used a this approach at work to extract compilation
 databases from projects with extremely unfriendly build systems. It works
-like a charm.
+like a charm. Also, see my note below about a "better format", which really
+makes everything simpler and easier.
 
 Note that this prototype uses `readelf` and moreover it uses a rather obscure
 (but super useful) option `--string-dump=<section number or name>`, so it may
@@ -60,6 +61,51 @@ Yes, I'm aware how ironic it is that I'm using ninja, and not just doing
 as a "build system" per se. This approach of embedding compilation database
 info is intended to work with *arbitrary* build systems, as it would eventually
 be inserted by the compiler.
+
+# Can we make this simpler/easier/more robust/more flexible?
+
+A better format for embedding this information (rather than just the JSON)
+makes it trivially easy to extract without any specialized tools or a
+special object file section; you can get by with just a regex and no
+knowledge of the file format.
+
+For example, consider embedding the compilation database info as
+`@<md5>:<length>:<JSON>`, where the `<md5>` is a hash of the entire
+string (with the hash itself replaced with 0's, or omitted, or whatever).
+Searching for the regex `@[0-9a-f]{32}:[0-9]+:` in the raw file will find
+all potential embedded JSON strings with a very low false positive rate;
+the hash can then be checked to avoid false positives.
+
+You can also do `@<md5>:<length>:<metadata>:<JSON>` to get some useful
+side-channel information.  E.g. `<metadata>` could be a unique identifier
+generated for a particular build, so that you can avoid any other embedded
+compilation database information. I suppose you could put this metadata
+directly in the JSON too (might be easier to process that way). Another
+possibility is to put a timestamp so that you can filter based on when the
+code was compiled, or a git commit hash to know what was being compiled to
+generate this, etc.
+
+Such a format allows casting a very "wide net" to find all possible
+compilation database entries; usually all build products are known to lie
+below a particular working directory, so just scan *all* files below that
+directory. Certain very hostile build systems may require something this
+flexible. This scan is basically a "grep" operation and can be made
+extremely fast. On the other hand, it's extremely simple, and a working,
+probably-fast-enough first implemetation can be done in less than an hour
+with a short Python script, which can then be iterated on and easily
+customized (all the expensive operations (regex, md5) have optimized
+implementations in the stdlib).
+
+Remember, all of this depends on being able to ensure that a particular
+byte sequence (the special string) is preserved verbatim across the build
+process and into the output. String literals are an obvious way to
+accomplish this; i.e. if you print a string literal in your program, you
+can be pretty darn sure that your output program will contain the string no
+matter what build steps happen. However, any other mechanism for
+getting a sequence of bytes preserved across the build process and into the
+final build products would work as well. If you're desperate, you could
+even scan the running program's address space right before shutdown in
+order to catch things from e.g. shared libraries.
 
 # Any future directions?
 
